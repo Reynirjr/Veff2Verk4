@@ -1,6 +1,6 @@
 import { Category, Paginated, Question } from './types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'postgresql://reynirjr:bgROKF8klcsG9Qtx8EPnIllXsgCxr5ac@dpg-cv666pfnoe9s73brpcv0-a/verkefni3_h10o';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 
 export class QuestionsApi {
   async fetchFromApi<T>(url: string): Promise<T | null> {
