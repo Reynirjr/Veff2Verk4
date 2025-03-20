@@ -1,14 +1,12 @@
 import { Category } from '@/components/Category/Category';
 import Navigation from '@/components/Navigation/Navigation';
 
-interface FlokkurPageProps {
-  params: {
-    flokkur: string;
-  };
-}
-
-export default function FlokkurPage({ params }: FlokkurPageProps) {
-  const { flokkur } = params;
+export default async function FlokkaPage({
+  params,
+}: {
+  params: Promise<{ flokkur: string }>;
+}) {
+  const { flokkur } = await params;
 
   return (
     <div>
