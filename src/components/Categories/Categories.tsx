@@ -21,15 +21,19 @@ export default function Categories({ title }: Props) {
   useEffect(() => {
     async function fetchData() {
       setUiState('loading');
+      try {
+        const api = new QuestionsApi();
+        const categoriesResponse = await api.getCategories();
 
-      const api = new QuestionsApi();
-      const categoriesResponse = await api.getCategories();
-
-      if (!categoriesResponse) {
+        if (!categoriesResponse) {
+          setUiState('error');
+        } else {
+          setUiState('data');
+          setCategories(categoriesResponse);
+        }
+      } catch (err) {
+        console.error('Error fetching categories:', err);
         setUiState('error');
-      } else {
-        setUiState('data');
-        setCategories(categoriesResponse);
       }
     }
     fetchData();
@@ -49,7 +53,7 @@ export default function Categories({ title }: Props) {
             <li key={index}>
               <Link href={`/flokkar/${category.slug}`}>{category.name}</Link>
             </li>
-          ))}
+          ))} 
         </ul>
       )}
     </div>
