@@ -43,11 +43,7 @@ export class QuestionsApi {
 
   async getCategories(): Promise<Paginated<Category> | null> {
     const url = BASE_URL + '/categories';
-
     const response = await this.fetchFromApi<Paginated<Category>>(url);
-
-    // TODO hér gæti ég staðfest gerð gagna
-
     return response;
   }
 
@@ -55,10 +51,51 @@ export class QuestionsApi {
     categorySlug: string,
   ): Promise<Paginated<Question> | null> {
     const url = BASE_URL + `/questions?category=${categorySlug}`;
-    // new URL()
-
     const response = await this.fetchFromApi<Paginated<Question>>(url);
-
     return response;
+  }
+
+  async createQuestion(data: {
+    text: string;
+    categorySlug: string;
+    answers: Array<{ text: string; correct: boolean }>;
+  }): Promise<boolean> {
+    try {
+      const categoryResponse = await this.getCategory(data.categorySlug);
+      if (!categoryResponse) {
+        console.error('Category not found:', data.categorySlug);
+        return false;
+      }
+
+      const payload = {
+        text: data.text,
+        categoryId: categoryResponse.id,
+        answers: data.answers.map(a => ({
+          text: a.text,
+          correct: a.correct 
+        }))
+      };
+
+      const res = await fetch(`${BASE_URL}/questions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        console.error(`POST /questions failed`, res.status);
+        try {
+          const errorData = await res.text();
+          console.error('Error response:', errorData);
+        } catch (e) {
+          console.error('Could not parse error response', e);
+        }
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error in createQuestion', error);
+      return false;
+    }
   }
 }

@@ -1,4 +1,59 @@
-
 .nav {
-  background-color: pink;
+  background-color: #333;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.nav li {
+  margin-right: 2rem;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav a:hover {
+  color: #4a6fa5;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #4a6fa5;
+  transition: width 0.3s ease;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .nav li {
+    margin-right: 0;
+  }
 }
